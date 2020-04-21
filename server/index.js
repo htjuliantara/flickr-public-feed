@@ -47,6 +47,6 @@ app.get('/photos', async (req, res, next) => {
   }
 })
 
-const server = app.listen(3000)
+const server = app.listen(8000)
 
 export default server
