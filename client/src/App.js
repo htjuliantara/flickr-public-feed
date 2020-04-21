@@ -19,12 +19,16 @@ export default class App extends Component{
     super(props);
     this.state = {
       photos: [],
-      meta: {},
+      meta: {
+        total: 20,
+        page: 1
+      },
       tags: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePagination= this.handlePagination.bind(this);
   }
 
   handleChange(event) {
@@ -35,6 +39,19 @@ export default class App extends Component{
     event.preventDefault();
     const tag = this.state.tags
     axios.get(`http://localhost:8000/photos?tags=${tag}`)
+      .then(res => {
+        const photos = res.data.items;
+        const meta = res.data.meta;
+        this.setState({ photos });
+        this.setState({ meta });
+      });
+  }
+
+  handlePagination(event, value) {
+    event.preventDefault();
+    const tag = this.state.tags
+    const page = value
+    axios.get(`http://localhost:8000/photos?tags=${tag}&page=${page}`)
       .then(res => {
         const photos = res.data.items;
         const meta = res.data.meta;
@@ -94,10 +111,14 @@ export default class App extends Component{
               />
               <div>
                 <Pagination 
-                  count={6} 
+                  count={20} 
                   variant="outlined" 
                   shape="rounded" 
                   style={{margin: 10}}
+                  page={this.state.meta.page} 
+                  onChange={this.handlePagination}
+                  hideNextButton={true}
+                  hidePrevButton={true}
                 />
               </div>
             </Card>);
