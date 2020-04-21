@@ -31,8 +31,8 @@ app.get('/photos', async (req, res, next) => {
 
     if (items.length > 0) {
       const meta = {
-        total: total,
-        page: page
+        total: parseInt(total),
+        page: parseInt(page)
       }
 
       res.send({items, meta})  
