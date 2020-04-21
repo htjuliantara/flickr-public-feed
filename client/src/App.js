@@ -15,9 +15,32 @@ import moment from 'moment'
 import { red } from '@material-ui/core/colors';
 
 export default class App extends Component{
-  state = {
-    photos: [],
-    meta: {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      photos: [],
+      meta: {},
+      tags: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({tags: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const tag = this.state.tags
+    axios.get(`http://localhost:8000/photos?tags=${tag}`)
+      .then(res => {
+        const photos = res.data.items;
+        const meta = res.data.meta;
+        this.setState({ photos });
+        this.setState({ meta });
+      });
   }
 
   componentDidMount() {
@@ -36,17 +59,21 @@ export default class App extends Component{
         <CssBaseline />
         <Container fixed maxWidth="xs">
           <Paper component="form" square={true}>
-            <InputBase
-              style={{
-                marginLeft: 15,
-                width: '80%'
-              }}
-              placeholder="Search Tags Flickr"
-              inputProps={{ 'aria-label': 'search tags flickr' }}
-            />
-            <IconButton type="submit" aria-label="search">
-              <SearchIcon />
-            </IconButton>
+            <form onSubmit={this.handleSubmit}>
+              <InputBase
+                style={{
+                  marginLeft: 15,
+                  width: '80%'
+                }}
+                placeholder="Search Tags Flickr"
+                inputProps={{ 'aria-label': 'search tags flickr' }}
+                value={this.state.tags} 
+                onChange={this.handleChange}
+              />
+              <IconButton type="submit" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </form>
           </Paper>
           { this.state.photos.map((photo, index) => {
             return (<Card square={true} key={index}>
