@@ -2,11 +2,13 @@ import Express from 'express'
 import * as bodyParser from 'body-parser'
 import Axios from 'axios'
 import { chunk } from 'lodash'
+import cors from 'cors'
 
 const app = Express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors())
 
 app.get('/photos', async (req, res, next) => {
   try {
