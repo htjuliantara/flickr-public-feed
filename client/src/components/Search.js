@@ -15,7 +15,7 @@ export default class Search extends React.Component {
             }}
             placeholder="Search Tags Flickr"
             inputProps={{ 'aria-label': 'search tags flickr' }}
-            value={this.props.tag} 
+            value={this.props.tags} 
             onChange={this.props.typing}
         />
         <IconButton type="submit" aria-label="search" onClick={this.props.submit}>

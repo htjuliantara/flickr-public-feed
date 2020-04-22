@@ -7,39 +7,39 @@ import moment from 'moment'
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Posts = ({ posts, loading }) => {
-  if (loading) {
+export default class Posts extends React.Component {
+  render () {
+    if (this.props.loading) {
+      return (
+        <CircularProgress color="secondary" />
+      );
+    }
+  
     return (
-      <CircularProgress color="secondary" />
+      <div>
+      { this.props.posts.map((photo, index) => {
+          return (<Card square={true} key={index}>
+            <CardHeader
+              avatar={
+                <Avatar 
+                  aria-label="recipe"
+                  style={{ backgroundColor: red[500] }}>
+                  HJ
+                </Avatar>
+              }
+              title={photo.author}
+              subheader={moment(photo.published).format('MMMM, D YYYY')}
+            />
+            <CardMedia
+              style = {{ height: 0, paddingTop: '56%'}}
+              image={photo.media.m}
+            />
+            <div>
+              
+            </div>
+          </Card>);
+        })}
+        </div>
     );
   }
-
-  return (
-    <div>
-    { posts.map((photo, index) => {
-        return (<Card square={true} key={index}>
-          <CardHeader
-            avatar={
-              <Avatar 
-                aria-label="recipe"
-                style={{ backgroundColor: red[500] }}>
-                HJ
-              </Avatar>
-            }
-            title={photo.author}
-            subheader={moment(photo.published).format('MMMM, D YYYY')}
-          />
-          <CardMedia
-            style = {{ height: 0, paddingTop: '56%'}}
-            image={photo.media.m}
-          />
-          <div>
-            
-          </div>
-        </Card>);
-      })}
-      </div>
-  );
-};
-
-export default Posts;
+}

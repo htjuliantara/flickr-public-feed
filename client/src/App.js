@@ -30,24 +30,24 @@ export default class App extends React.Component{
 
   handleSubmit(event) {
     event.preventDefault();
-    const tag = this.state.tags
-    this.fetchPosts(1, tag)
+    const tags = this.state.tags
+    this.fetchPosts(1, tags)
   }
 
   handlePagination(event, value) {
     event.preventDefault();
     const page = value
-    const tag = this.state.tags
-    this.fetchPosts(page, tag)
+    const tags = this.state.tags
+    this.fetchPosts(page, tags)
   }
 
   componentDidMount() {
     this.fetchPosts();
   }
 
-  fetchPosts(page = 1, tag = '') {
+  fetchPosts(page = 1, tags = '') {
     this.setState({ loading: true });
-    axios.get(`http://localhost:8000/photos?tags=${tag}&page=${page}`)
+    axios.get(`http://localhost:8000/photos?tags=${tags}&page=${page}`)
       .then(res => {
         const posts = res.data.items;
         const meta = res.data.meta;
@@ -62,7 +62,7 @@ export default class App extends React.Component{
       <React.Fragment>
         <CssBaseline />
         <Container fixed maxWidth="xs">
-          <Search tag={this.state.tags} typing={this.handleChange} submit={this.handleSubmit}/>
+          <Search tags={this.state.tags} typing={this.handleChange} submit={this.handleSubmit}/>
           <Posts posts={this.state.posts} loading={this.state.loading} />
           <Pagination 
               count={20} 
