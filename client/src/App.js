@@ -59,8 +59,12 @@ export default class App extends React.Component{
         this.setState({ loading: false });
       })
       .catch((err) => {
-        alert("Something error");
-        console.log({err});
+        if(!err.response) {
+          alert("Something error");
+        }
+        this.setState({ posts: [] });
+        this.setState({ tags: '' });
+        this.setState({ meta: { total: 1, page: 1} });
         this.setState({ loading: false });
       });
   }
@@ -73,7 +77,7 @@ export default class App extends React.Component{
           <Search tags={this.state.tags} typing={this.handleChange} submit={this.handleSubmit}/>
           <Posts posts={this.state.posts} loading={this.state.loading} />
           <Pagination 
-              count={20} 
+              count={this.state.meta.total} 
               color="secondary"
               style={{margin: 10}}
               page={this.state.meta.page} 
