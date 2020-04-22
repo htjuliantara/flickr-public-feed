@@ -5,10 +5,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
 import moment from 'moment'
 import { red } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Posts = ({ posts, loading }) => {
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <CircularProgress color="secondary" />
+    );
   }
 
   return (
@@ -27,7 +30,7 @@ const Posts = ({ posts, loading }) => {
             subheader={moment(photo.published).format('MMMM, D YYYY')}
           />
           <CardMedia
-             style = {{ height: 0, paddingTop: '56%'}}
+            style = {{ height: 0, paddingTop: '56%'}}
             image={photo.media.m}
           />
           <div>

@@ -24,7 +24,7 @@ export default class App extends Component{
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handlePagination= this.handlePagination.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
   }
 
   handleChange(event) {
@@ -34,21 +34,21 @@ export default class App extends Component{
   handleSubmit(event) {
     event.preventDefault();
     const tag = this.state.tags
-    this.setState({ loading: true });
-    axios.get(`http://localhost:8000/photos?tags=${tag}`)
-      .then(res => {
-        const posts = res.data.items;
-        const meta = res.data.meta;
-        this.setState({ posts });
-        this.setState({ meta });
-        this.setState({ loading: false });
-      });
+    this.fetchPosts(1, tag)
   }
 
   handlePagination(event, value) {
     event.preventDefault();
-    const tag = this.state.tags
     const page = value
+    const tag = this.state.tags
+    this.fetchPosts(page, tag)
+  }
+
+  componentDidMount() {
+    this.fetchPosts();
+  }
+
+  fetchPosts(page = 1, tag = '') {
     this.setState({ loading: true });
     axios.get(`http://localhost:8000/photos?tags=${tag}&page=${page}`)
       .then(res => {
@@ -60,39 +60,25 @@ export default class App extends Component{
       });
   }
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    axios.get(`http://localhost:8000/photos`)
-      .then(res => {
-        const posts = res.data.items;
-        const meta = res.data.meta;
-        this.setState({ posts });
-        this.setState({ meta });
-        this.setState({ loading: false });
-      })
-  }
-
   render() {
     return (
       <React.Fragment>
         <CssBaseline />
         <Container fixed maxWidth="xs">
           <Paper component="form" square={true}>
-            <form onSubmit={this.handleSubmit}>
-              <InputBase
-                style={{
-                  marginLeft: 15,
-                  width: '80%'
-                }}
-                placeholder="Search Tags Flickr"
-                inputProps={{ 'aria-label': 'search tags flickr' }}
-                value={this.state.tags} 
-                onChange={this.handleChange}
-              />
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </form>
+            <InputBase
+              style={{
+                marginLeft: 15,
+                width: '80%'
+              }}
+              placeholder="Search Tags Flickr"
+              inputProps={{ 'aria-label': 'search tags flickr' }}
+              value={this.state.tags} 
+              onChange={this.handleChange}
+            />
+            <IconButton type="submit" aria-label="search" onClick={this.handleSubmit}>
+              <SearchIcon />
+            </IconButton>
           </Paper>
           <Posts posts={this.state.posts} loading={this.state.loading} />
           <Pagination 
