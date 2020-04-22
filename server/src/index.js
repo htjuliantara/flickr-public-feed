@@ -3,7 +3,9 @@ import * as bodyParser from 'body-parser'
 import Axios from 'axios'
 import { chunk } from 'lodash'
 import cors from 'cors'
+import dotenv from 'dotenv'
 
+dotenv.config();
 const app = Express()
 
 app.use(bodyParser.json())
@@ -49,6 +51,6 @@ app.get('/photos', async (req, res, next) => {
   }
 })
 
-const server = app.listen(8000)
+const server = app.listen(process.env.PORT)
 
 export default server
