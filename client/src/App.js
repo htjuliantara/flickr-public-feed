@@ -5,6 +5,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Pagination from "@material-ui/lab/Pagination";
 import axios from "axios";
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 export default class App extends React.Component{
   constructor(props) {
@@ -47,7 +50,7 @@ export default class App extends React.Component{
 
   fetchPosts(page = 1, tags = "") {
     this.setState({ loading: true });
-    axios.get(`http://localhost:8000/photos?tags=${tags}&page=${page}`)
+    axios.get(`${process.env.REACT_APP_API_BASE_URL}/photos?tags=${tags}&page=${page}`)
       .then(res => {
         const posts = res.data.items;
         const meta = res.data.meta;
