@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
+import Posts from './components/Posts';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Pagination from '@material-ui/lab/Pagination';
 import axios from 'axios';
-import moment from 'moment'
-import { red } from '@material-ui/core/colors';
 
 export default class App extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      photos: [],
+      posts: [],
       meta: {
         total: 20,
         page: 1
       },
-      tags: ''
+      tags: '',
+      loading: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,12 +34,14 @@ export default class App extends Component{
   handleSubmit(event) {
     event.preventDefault();
     const tag = this.state.tags
+    this.setState({ loading: true });
     axios.get(`http://localhost:8000/photos?tags=${tag}`)
       .then(res => {
-        const photos = res.data.items;
+        const posts = res.data.items;
         const meta = res.data.meta;
-        this.setState({ photos });
+        this.setState({ posts });
         this.setState({ meta });
+        this.setState({ loading: false });
       });
   }
 
@@ -51,22 +49,26 @@ export default class App extends Component{
     event.preventDefault();
     const tag = this.state.tags
     const page = value
+    this.setState({ loading: true });
     axios.get(`http://localhost:8000/photos?tags=${tag}&page=${page}`)
       .then(res => {
-        const photos = res.data.items;
+        const posts = res.data.items;
         const meta = res.data.meta;
-        this.setState({ photos });
+        this.setState({ posts });
         this.setState({ meta });
+        this.setState({ loading: false });
       });
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     axios.get(`http://localhost:8000/photos`)
       .then(res => {
-        const photos = res.data.items;
+        const posts = res.data.items;
         const meta = res.data.meta;
-        this.setState({ photos });
+        this.setState({ posts });
         this.setState({ meta });
+        this.setState({ loading: false });
       })
   }
 
@@ -92,38 +94,16 @@ export default class App extends Component{
               </IconButton>
             </form>
           </Paper>
-          { this.state.photos.map((photo, index) => {
-            return (<Card square={true} key={index}>
-              <CardHeader
-                avatar={
-                  <Avatar 
-                    aria-label="recipe"
-                    style={{ backgroundColor: red[500] }}>
-                    HJ
-                  </Avatar>
-                }
-                title={photo.author}
-                subheader={moment(photo.published).format('MMMM, D YYYY')}
-              />
-              <CardMedia
-                 style = {{ height: 0, paddingTop: '56%'}}
-                image={photo.media.m}
-              />
-              <div>
-                <Pagination 
-                  count={20} 
-                  variant="outlined" 
-                  shape="rounded" 
-                  style={{margin: 10}}
-                  page={this.state.meta.page} 
-                  onChange={this.handlePagination}
-                  hideNextButton={true}
-                  hidePrevButton={true}
-                />
-              </div>
-            </Card>);
-          })}
-          
+          <Posts posts={this.state.posts} loading={this.state.loading} />
+          <Pagination 
+              count={20} 
+              color="secondary"
+              style={{margin: 10}}
+              page={this.state.meta.page} 
+              onChange={this.handlePagination}
+              hideNextButton={true}
+              hidePrevButton={true}
+            />
         </Container>
       </React.Fragment>
     );
