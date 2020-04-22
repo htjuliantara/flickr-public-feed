@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Posts from './components/Posts';
+import Search from './components/Search';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import Pagination from '@material-ui/lab/Pagination';
 import axios from 'axios';
 
-export default class App extends Component{
+export default class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -65,21 +62,7 @@ export default class App extends Component{
       <React.Fragment>
         <CssBaseline />
         <Container fixed maxWidth="xs">
-          <Paper component="form" square={true}>
-            <InputBase
-              style={{
-                marginLeft: 15,
-                width: '80%'
-              }}
-              placeholder="Search Tags Flickr"
-              inputProps={{ 'aria-label': 'search tags flickr' }}
-              value={this.state.tags} 
-              onChange={this.handleChange}
-            />
-            <IconButton type="submit" aria-label="search" onClick={this.handleSubmit}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
+          <Search tag={this.state.tags} typing={this.handleChange} submit={this.handleSubmit}/>
           <Posts posts={this.state.posts} loading={this.state.loading} />
           <Pagination 
               count={20} 
