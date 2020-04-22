@@ -1,10 +1,10 @@
-import React from 'react';
-import Posts from './components/Posts';
-import Search from './components/Search';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import Pagination from '@material-ui/lab/Pagination';
-import axios from 'axios';
+import React from "react";
+import Posts from "./components/Posts";
+import Search from "./components/Search";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import Pagination from "@material-ui/lab/Pagination";
+import axios from "axios";
 
 export default class App extends React.Component{
   constructor(props) {
@@ -15,7 +15,7 @@ export default class App extends React.Component{
         total: 20,
         page: 1
       },
-      tags: '',
+      tags: "",
       loading: false
     };
 
@@ -45,7 +45,7 @@ export default class App extends React.Component{
     this.fetchPosts();
   }
 
-  fetchPosts(page = 1, tags = '') {
+  fetchPosts(page = 1, tags = "") {
     this.setState({ loading: true });
     axios.get(`http://localhost:8000/photos?tags=${tags}&page=${page}`)
       .then(res => {
@@ -56,7 +56,7 @@ export default class App extends React.Component{
         this.setState({ loading: false });
       })
       .catch((err) => {
-        alert('Something error');
+        alert("Something error");
         console.log({err});
         this.setState({ loading: false });
       });
@@ -72,7 +72,7 @@ export default class App extends React.Component{
           <Pagination 
               count={20} 
               color="secondary"
-              style={{marginLeft: 10, marginTop: 30}}
+              style={{margin: 10}}
               page={this.state.meta.page} 
               onChange={this.handlePagination}
               hideNextButton={true}

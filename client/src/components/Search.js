@@ -1,8 +1,8 @@
-import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import React from "react";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
 
 export default class Search extends React.Component {
   render() {
@@ -11,10 +11,10 @@ export default class Search extends React.Component {
         <InputBase
             style={{
             marginLeft: 15,
-            width: '80%'
+            width: "80%"
             }}
             placeholder="Search Tags Flickr"
-            inputProps={{ 'aria-label': 'search tags flickr' }}
+            inputProps={{ "aria-label": "search tags flickr" }}
             value={this.props.tags} 
             onChange={this.props.typing}
         />
