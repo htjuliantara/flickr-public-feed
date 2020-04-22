@@ -54,6 +54,10 @@ export default class App extends React.Component{
         this.setState({ posts });
         this.setState({ meta });
         this.setState({ loading: false });
+      })
+      .catch(err => {
+        alert('Something error');
+        this.setState({ loading: false });
       });
   }
 
