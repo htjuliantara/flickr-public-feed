@@ -11,12 +11,14 @@ export default class Posts extends React.Component {
   render () {
     if (this.props.loading) {
       return (
-        <CircularProgress color="secondary" />
+        <div style={{ height: 257 }}>
+          <CircularProgress color="secondary" style={{ marginLeft: 140, marginTop: 127 }}/>
+        </div>
       );
     }
   
     return (
-      <div>
+      <div style={{ height: 257 }}>
       { this.props.posts.map((photo, index) => {
           return (<Card square={true} key={index}>
             <CardHeader

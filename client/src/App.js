@@ -55,8 +55,9 @@ export default class App extends React.Component{
         this.setState({ meta });
         this.setState({ loading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         alert('Something error');
+        console.log({err});
         this.setState({ loading: false });
       });
   }
@@ -71,7 +72,7 @@ export default class App extends React.Component{
           <Pagination 
               count={20} 
               color="secondary"
-              style={{margin: 10}}
+              style={{marginLeft: 10, marginTop: 30}}
               page={this.state.meta.page} 
               onChange={this.handlePagination}
               hideNextButton={true}
