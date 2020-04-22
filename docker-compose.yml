@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  # - Flickr Public Feed API
+  flickr-public-feed-api:
+    container_name: flickr-public-feed-api
+    image: ${FLICKR_PUBLIC_FEED_API_IMAGE_NAME}
+    restart: unless-stopped
+    env_file: ./.env
+
+  # - Flickr Public Feed APP
+  flickr-public-feed-app:
+    container_name: flickr-public-feed-app
+    image: ${FLICKR_PUBLIC_FEED_APP_IMAGE_NAME}
+    restart: unless-stopped
