@@ -7,9 +7,17 @@ services:
     image: ${FLICKR_PUBLIC_FEED_API_IMAGE_NAME}
     restart: unless-stopped
     env_file: ./.env
+    ports:
+    - "8000:8000"
+    networks:
+    - default  
 
   # - Flickr Public Feed APP
   flickr-public-feed-app:
     container_name: flickr-public-feed-app
     image: ${FLICKR_PUBLIC_FEED_APP_IMAGE_NAME}
     restart: unless-stopped
+    ports:
+    - "80:80"
+    networks:
+    - default  

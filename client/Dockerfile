@@ -10,7 +10,7 @@ COPY ./public ./public
 
 COPY ./src ./src
 
-ARG REACT_APP_API_BASE_URL=http://localhost:8000
+ARG REACT_APP_API_BASE_URL='http://localhost:8000'
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
 RUN npm run build

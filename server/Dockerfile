@@ -4,9 +4,11 @@ WORKDIR /server
 
 COPY package*.json ./
 
-RUN npm i  --production --silent
+RUN npm install babel-cli -g --save --silent
 
-COPY ./src ./src
+RUN npm install --production --silent
+
+COPY ./ ./
 
 EXPOSE 8000
 
